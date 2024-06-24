@@ -34,6 +34,17 @@ async function main() {
 
   await prisma.mattress.create({
     data: {
+      name: "Another T & N",
+      size: "Queen",
+      firmness: "medium-firm",
+      type: "Foam",
+      price: 516.00,
+      brand_id: tuftAndNeedle.id
+    },
+  });
+
+  await prisma.mattress.create({
+    data: {
       name: "TEMPUR-Cloud",
       size: "Twin",
       firmness: "Firm",
