@@ -28,53 +28,72 @@ async function main() {
   //CREATE MATTRESSES
   console.log("Creating Mattresses...");
 
-  await prisma.mattress.create({
+  const tn_Original_mattress = await prisma.mattress.create({
     data: {
       name: "Essential T&N Original",
       size: "Queen",
       firmness: "medium-firm",
       type: "Foam",
-      price: 516.00,
-      brand_id: tuftAndNeedle.id
+      price: 516.0,
+      brand_id: tuftAndNeedle.id,
     },
   });
 
-  await prisma.mattress.create({
+  const tn_other_mattress = await prisma.mattress.create({
     data: {
       name: "Another T & N",
       size: "Queen",
       firmness: "medium-firm",
       type: "Foam",
-      price: 516.00,
-      brand_id: tuftAndNeedle.id
+      price: 516.0,
+      brand_id: tuftAndNeedle.id,
     },
   });
 
-  await prisma.mattress.create({
+  const tempurCloud = await prisma.mattress.create({
     data: {
       name: "TEMPUR-Cloud",
       size: "Twin",
       firmness: "Firm",
       type: "Memory Foam",
-      price: 1189.30,
-      brand_id: tempurpedic.id
+      price: 1189.3,
+      brand_id: tempurpedic.id,
     },
   });
 
   //CREATE USERS
   console.log("Creating Users");
 
-  await prisma.user.create({
-    data:{
-       username: "tyler",
-       password: "password",  //not secure, needs to be encypted
-       firstName: "Tyler", 
-       lastName: "Wright"
-    }
+  const tyler = await prisma.user.create({
+    data: {
+      username: "tyler",
+      password: "password", //not secure, needs to be encypted
+      firstName: "Tyler",
+      lastName: "Wright",
+    },
   });
 
-  
+  //CREATE REVIEWS
+  console.log("Creating reviews...")
+  await prisma.review.create({
+    data: {
+      title: "Feels Just like a Cloud",
+      content: "Wow what a great mattress",
+      rating: 5,
+      user_id: tyler.id,
+      mattress_id: tempurCloud.id
+    },
+  });
 
+  await prisma.review.create({
+    data: {
+      title: "Tuft and Needle dropped the ball",
+      content: "This matress sucks. I expected better",
+      rating: 2,
+      user_id: tyler.id,
+      mattress_id: tn_other_mattress.id
+    },
+  });
 }
 
 main()
