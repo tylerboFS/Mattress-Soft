@@ -5,6 +5,10 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding Database");
 
+  //CREATING BRANDS
+
+  console.log("Creating Brands...");
+
   const tuftAndNeedle = await prisma.brand.create({
     data: {
       name: "Tuft & Needle",
@@ -20,6 +24,9 @@ async function main() {
         "https://www.tempurpedic.com/static/06e31e74/img/tempurpedic-logo.dad6272d4ddb.png",
     },
   });
+
+  //CREATE MATTRESSES
+  console.log("Creating Mattresses...");
 
   await prisma.mattress.create({
     data: {
@@ -53,6 +60,21 @@ async function main() {
       brand_id: tempurpedic.id
     },
   });
+
+  //CREATE USERS
+  console.log("Creating Users");
+
+  await prisma.user.create({
+    data:{
+       username: "tyler",
+       password: "password",  //not secure, needs to be encypted
+       firstName: "Tyler", 
+       lastName: "Wright"
+    }
+  });
+
+  
+
 }
 
 main()

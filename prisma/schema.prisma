@@ -14,21 +14,42 @@ datasource db {
 }
 
 model Mattress {
-  id       Int     @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   size     String
   firmness String?
   type     String
   price    Decimal
   name     String
   brand_id Int
-  brand    Brand  @relation(fields: [brand_id], references: [id])
+  brand    Brand    @relation(fields: [brand_id], references: [id])
+  reviews  Review[]
 }
 
 model Brand {
-  id         Int     @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   name       String
   logo_url   String?
   mattresses Mattress[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  firstName String
+  lastName  String
+  reviews   Review[]
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  rating      Int
+  user_id     Int
+  user        User     @relation(fields: [user_id], references: [id])
+  mattress_id Int
+  mattress    Mattress @relation(fields: [mattress_id], references: [id])
 }
 
 // model Post {
