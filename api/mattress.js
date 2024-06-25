@@ -32,7 +32,11 @@ mattressRouter.get("/:id", async (req, res) => {
         brand: true,
       },
     });
-    res.send(mattress);
+    if (mattress) {
+      res.send(mattress);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
@@ -44,11 +48,51 @@ mattressRouter.get("/:id", async (req, res) => {
 mattressRouter.post("/", async (req, res) => {
   try {
     const newMattress = await prisma.mattress.create({
-      data: req.body
+      data: req.body,
     });
     res.send(newMattress);
   } catch (err) {
     console.log(err);
+    res.sendStatus(500);
+  }
+});
+
+//DELETE /api/mattress/:id
+mattressRouter.delete("/:id", async (req, res) => {
+  try {
+    const deletedMattress = await prisma.mattress.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    if (deletedMattress) {
+      res.send(deletedMattress);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.log("Error deleting mattress", err);
+    res.sendStatus(500);
+  }
+});
+
+// PUT /api/mattress/:id
+// updates the given mattress
+mattressRouter.put("/:id", async (req, res) => {
+  try {
+    const updatedMattress = await prisma.mattress.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: req.body,
+    });
+    if (updatedMattress) {
+      res.send(updatedMattress);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.log("Error deleting mattress", err);
     res.sendStatus(500);
   }
 });
