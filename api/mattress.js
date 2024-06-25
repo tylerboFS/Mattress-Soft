@@ -44,10 +44,9 @@ mattressRouter.get("/:id", async (req, res) => {
 mattressRouter.post("/", async (req, res) => {
   try {
     const newMattress = await prisma.mattress.create({
-      data:{
-        //TODO get data from body
-      }
+      data: req.body
     });
+    res.send(newMattress);
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
