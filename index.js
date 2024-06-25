@@ -22,10 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//Home route (This will need to serve the front end)
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/", express.static(__dirname + "/client/dist"));
 
 app.use("/api", require("./api"));
 
