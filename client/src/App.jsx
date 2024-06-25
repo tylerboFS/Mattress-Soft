@@ -1,12 +1,15 @@
-
-import './App.css'
+import "./App.css";
+import Navbar from "./component/Navbar";
+import AllMattresses from "./pages/AllMattresses";
 
 function App() {
   return (
     <>
-    <h1>Hello Mattress Review Store</h1>
+      <Navbar />
+      <h1>Hello Mattress Review Store</h1>
+      <AllMattresses />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
