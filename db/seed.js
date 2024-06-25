@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 async function main() {
   console.log("Seeding Database");
@@ -64,24 +66,29 @@ async function main() {
   //CREATE USERS
   console.log("Creating Users");
 
-  const tyler = await prisma.user.create({
-    data: {
-      username: "tyler",
-      password: "password", //not secure, needs to be encypted
-      firstName: "Tyler",
-      lastName: "Wright",
-    },
-  });
+  let tyler = undefined;
+  try {
+    tyler = await prisma.user.create({
+      data: {
+        username: "tyler",
+        password: await bcrypt.hash("password", saltRounds), //not secure, needs to be encypted
+        firstName: "Tyler",
+        lastName: "Wright",
+      },
+    });
+  } catch (err) {
+    throw err;
+  }
 
   //CREATE REVIEWS
-  console.log("Creating reviews...")
+  console.log("Creating reviews...");
   await prisma.review.create({
     data: {
       title: "Feels Just like a Cloud",
       content: "Wow what a great mattress",
       rating: 5,
       user_id: tyler.id,
-      mattress_id: tempurCloud.id
+      mattress_id: tempurCloud.id,
     },
   });
 
@@ -91,7 +98,7 @@ async function main() {
       content: "This matress sucks. I expected better",
       rating: 2,
       user_id: tyler.id,
-      mattress_id: tn_other_mattress.id
+      mattress_id: tn_other_mattress.id,
     },
   });
 }
