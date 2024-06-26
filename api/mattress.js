@@ -1,6 +1,7 @@
 const express = require("express");
 const mattressRouter = express.Router();
 const { PrismaClient } = require("@prisma/client");
+const { requireUser } = require("../utils/utils");
 
 const prisma = new PrismaClient();
 
@@ -58,7 +59,7 @@ mattressRouter.post("/", async (req, res) => {
 });
 
 //DELETE /api/mattress/:id
-mattressRouter.delete("/:id", async (req, res) => {
+mattressRouter.delete("/:id", requireUser, async (req, res) => {
   try {
     const deletedMattress = await prisma.mattress.delete({
       where: {
