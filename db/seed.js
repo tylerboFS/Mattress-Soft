@@ -71,7 +71,7 @@ async function main() {
     tyler = await prisma.user.create({
       data: {
         username: "tyler",
-        password: await bcrypt.hash("password", saltRounds), //not secure, needs to be encypted
+        password: await bcrypt.hash("password", saltRounds), 
         firstName: "Tyler",
         lastName: "Wright",
       },
